@@ -54,6 +54,6 @@ public class Door {
 
         return locked;
     }
-
+// test för ändring i main branch
 
 }
