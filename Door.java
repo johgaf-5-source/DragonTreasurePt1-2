@@ -1,5 +1,6 @@
-public class Door {
 
+public class Door {
+    
     // dörrens riktning
     private char position;
 
@@ -54,6 +55,6 @@ public class Door {
 
         return locked;
     }
-
+//test för ändring i GitHub
 
 }
