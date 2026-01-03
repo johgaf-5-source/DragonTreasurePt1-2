@@ -21,6 +21,16 @@ public class Room {
 
         return this.roomDesc;
     }
+    
+ public Door getDoor(char position){
+        for (Door door : doors) {
+            if (door.getPositionChar() == position) {
+                return door;
+            }
+        }
+        return null;
+    }
+    
 // lägger till en ny dörr till rummet
     public void addDoor(Door door) {
         doors.add(door);
