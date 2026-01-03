@@ -32,19 +32,23 @@ public class DragonTreasure {
 
         rooms.add(new Room("Du kommer in i ett rymligt bergrum med en ljusstrimma sipprandes genom en spricka i " +
                 "den östra väggen."));
+        rooms.add(new Room("En arg drake dyker upp"));
+
+
 
 // här skapas en instans av spelaren
-        Player newPlayer = new Player("");
+        Player newPlayer = new Player("", 100, 100);
 
         // ger alla rummen en tillhörande dörr
-        Door roomDoors = new Door(' ', false);
-        String doorDesc = roomDoors.getPositionDesc();
+      //  Door roomDoors = new Door(' ', false);
+
 
         Room room1 = rooms.get(0);
         Room room2 = rooms.get(1);
         Room room3 = rooms.get(2);
         Room room4 = rooms.get(3);
         Room room5 = rooms.get(4);
+        Room room6 = rooms.get(5);
 
 
         room1.addDoor(new Door('n', false));
@@ -64,15 +68,40 @@ public class DragonTreasure {
         room5.addDoor(new Door('n', false));
         room5.addDoor(new Door('ö', false));
 
-// ett välkommstmeddellande
-        Dungeon intro = new Dungeon("", rooms.get(0));
+        room6.addDoor(new Door('v', false));
 
+        ArrayList<Item> items = new ArrayList<>();
+
+        items.add(new Weapon("sword", " ", true, 2));
+        items.add(new Potion("potion", " ", true, 6));
+        items.add(new Key("key", " ", true));
+
+room2.addItem(items.get(0));
+room4.addItem(items.get(1));
+room5.addItem(items.get(2));
+
+       /* room2.addItem(new Weapon("sword", " ", true, 2));
+
+        room4.addItem(new Potion("potion", " ", true, 6));
+
+        room5.addItem(new Key("key", " ", true));*/
+
+
+
+
+
+
+
+
+
+        Dungeon intro = new Dungeon("", rooms.get(0));
+// ett välkommstmeddellande
         intro.setWelcomeMessage("Välkommen till Dragon Treasure \n" +
                 "Skriv ditt namn och tryck på [Enter] för att starta ett nytt spel...");
 
 
         System.out.println(intro.getWelcomeMessage());
-        roomDoors.setPosition('n');
+     //   roomDoors.setPosition('n');
 
 
         String playerName = scanner.nextLine();
@@ -83,11 +112,6 @@ public class DragonTreasure {
 
                 intro.setWelcomeMessage("Välkommen " + newPlayer.getName() + " till din skattjakt.\nDu står utanför en grotta. Det luktar svavel från öppningen \n" +
                         "Grottöppningen är österut. Skriv \"ö\" och tryck på [Enter] för att komma in i grottan");
-
-
-
-
-
 
         System.out.println(intro.getWelcomeMessage());
 
