@@ -53,42 +53,54 @@ public class Dungeon {
             char direction = scanner.next().charAt(0);
             // kollar vilket rum spelaren befinner sig i och hanterar rörelser från spelaren
             if (currentRoom == rooms.get(0)) {
-                if (direction == 'n') {
-                    setCurrentRoom(rooms.get(1));
-                } else if (direction == 's') {
-                    setCurrentRoom(rooms.get(4));
-                }
-            } else if (currentRoom == rooms.get(1)) {
-                if (direction == 'ö') {
-                    setCurrentRoom(rooms.get(2));
-                } else if (direction == 's') {
-                    setCurrentRoom(rooms.get(0));
+                switch (direction) {
+                    case 'n' -> currentRoom = rooms.get(1);
+                    case 's' -> currentRoom = rooms.get(4);
                 }
 
+
+            } else if (currentRoom == rooms.get(1)) {
+                switch (direction) {
+                    case 'ö' -> currentRoom = rooms.get(2);
+                    case 's' -> currentRoom = rooms.get(0);
+                }
+
+
             } else if (currentRoom == rooms.get(2)) {
-                if (direction == 's') {
-                    setCurrentRoom(rooms.get(3));
-                } else if (direction == 'v') {
-                    setCurrentRoom(rooms.get(1));
-                } else if (direction == 'ö') {
-                    close.endGame(); //skriver ut sluttmeddelande
-                    return; //avslutar playGame-metoden och loopen
+                switch (direction) {
+                    case 's' -> currentRoom = rooms.get(3);
+                    case 'v' -> currentRoom = rooms.get(1);
+                    case 'ö' -> {
+                        close.endGame();
+                        return;
+                    }
+
                 }
 
             } else if (currentRoom == rooms.get(3)) {
-                if (direction == 'v') {
-                    setCurrentRoom(rooms.get(4));
-                } else if (direction == 'n') {
-                    setCurrentRoom(rooms.get(2));
-                } else if (direction == 'ö') {
-                    close.chest();
+                switch (direction) {
+                    case 'v' -> currentRoom = rooms.get(4);
+                    case 'n' -> currentRoom = rooms.get(2);
+                    case 'ö' -> {
+                        if (door != null && door.isLocked()) {
+                            close.chest();
+                        } else {
+                            currentRoom = rooms.get(5);
+                        }
+                    }
                 }
 
+
+
             } else if (currentRoom == rooms.get(4)) {
-                if (direction == 'n') {
-                    setCurrentRoom(rooms.get(0));
-                } else if (direction == 'ö') {
-                    setCurrentRoom(rooms.get(3));
+                switch (direction) {
+                    case 'n' -> currentRoom = rooms.get(0);
+                    case 'ö' -> currentRoom = rooms.get(3);
+
+                }
+            } else if (currentRoom == rooms.get(5)) {
+                switch (direction) {
+                    case 'v' -> currentRoom = rooms.get(3);
                 }
             }
 
