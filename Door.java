@@ -6,10 +6,17 @@ public class Door {
     // true om dörrens visas som låst, false om dörren visas som öppen
     private boolean locked;
 
+    private int doorId;
+
     // konstruktor som skapar en dörr med position och låst-status
-    public Door(char position, boolean locked) {
-        setPosition(position);
-        setLocked(locked);
+    public Door(char position, boolean locked, int doorId) {
+        this.position = position;
+        this.locked = locked;
+        this.doorId = doorId;
+    }
+
+    public int getDoorId() {
+        return doorId;
     }
 
 //setter för position, kan användas om man vill ändra riktning senare
@@ -39,7 +46,6 @@ public class Door {
                     ? "Du ser en låst dörr i väster [v]"
                     : "Du kan gå västerut [v]";
 
-
             default -> "Du ser en utgång österut [ö]"; //om positionen inte matchar
 
         };
@@ -54,6 +60,8 @@ public class Door {
 
         return locked;
     }
-// test för ändring i main branch
+
+
+
 
 }
