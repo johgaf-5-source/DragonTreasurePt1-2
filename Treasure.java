@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 public class Treasure extends Item{
 
     private int goldValue;
@@ -17,7 +17,7 @@ public class Treasure extends Item{
         return goldValue;
     }
     @Override
-    void use(){
+    void use(ArrayList<Room> rooms){
 
     }
 }
