@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Dungeon {
 
-    private String welcomeMessage; //text som visas när spelet startas
-    private Room currentRoom; // refererar till rummet spelaren befinner sig i
+    private String welcomeMessage; 
+    private Room currentRoom; 
 
     //setter för välkomstmeddellande
     public void setWelcomeMessage(String welcomeMessage) {
@@ -29,8 +29,8 @@ public class Dungeon {
 
     //konstruktor för dungeon
     public Dungeon(String welcomeMessage, Room currentRoom) {
-        setWelcomeMessage(welcomeMessage);
-        setCurrentRoom(currentRoom);
+        this.welcomeMessage = welcomeMessage;
+        this.currentRoom = currentRoom;
 
     }
 
@@ -50,57 +50,88 @@ public class Dungeon {
 
 //loop som körs tills spelet avslutas
         while (true) {
-            char direction = scanner.next().charAt(0);
+            char action = scanner.next().charAt(0);
+
+            boolean exists;
+
+            Door door = currentRoom.getDoor(action);
+
+            // bara ett test för att se hur låsta/öppna dörrar fungerar
+/*
+if (action == '1') {
+    rooms.get(3).getDoor('ö').setLocked(false);
+} else if (action == '2') {
+    rooms.get(3).getDoor('ö').setLocked(true);
+}*/
+
+
             // kollar vilket rum spelaren befinner sig i och hanterar rörelser från spelaren
             if (currentRoom == rooms.get(0)) {
-                if (direction == 'n') {
-                    setCurrentRoom(rooms.get(1));
-                } else if (direction == 's') {
-                    setCurrentRoom(rooms.get(4));
-                }
-            } else if (currentRoom == rooms.get(1)) {
-                if (direction == 'ö') {
-                    setCurrentRoom(rooms.get(2));
-                } else if (direction == 's') {
-                    setCurrentRoom(rooms.get(0));
+                switch (action) {
+                    case 'n' -> currentRoom = rooms.get(1);
+                    case 's' -> currentRoom = rooms.get(4);
                 }
 
+
+            } else if (currentRoom == rooms.get(1)) {
+                switch (action) {
+                    case 'ö' -> currentRoom = rooms.get(2);
+                    case 's' -> currentRoom = rooms.get(0);
+                }
+
+
             } else if (currentRoom == rooms.get(2)) {
-                if (direction == 's') {
-                    setCurrentRoom(rooms.get(3));
-                } else if (direction == 'v') {
-                    setCurrentRoom(rooms.get(1));
-                } else if (direction == 'ö') {
-                    close.endGame(); //skriver ut sluttmeddelande
-                    return; //avslutar playGame-metoden och loopen
+                switch (action) {
+                    case 's' -> currentRoom = rooms.get(3);
+                    case 'v' -> currentRoom = rooms.get(1);
+                    case 'ö' -> {
+                        close.endGame();
+                        return;
+                    }
+
                 }
 
             } else if (currentRoom == rooms.get(3)) {
-                if (direction == 'v') {
-                    setCurrentRoom(rooms.get(4));
-                } else if (direction == 'n') {
-                    setCurrentRoom(rooms.get(2));
-                } else if (direction == 'ö') {
-                    close.chest();
+                switch (action) {
+                    case 'v' -> currentRoom = rooms.get(4);
+                    case 'n' -> currentRoom = rooms.get(2);
+                    case 'ö' -> {
+                        if (door != null && door.isLocked()) {
+                            close.chest();
+                        } else {
+                            currentRoom = rooms.get(5);
+                        }
+                    }
                 }
 
+
             } else if (currentRoom == rooms.get(4)) {
-                if (direction == 'n') {
-                    setCurrentRoom(rooms.get(0));
-                } else if (direction == 'ö') {
-                    setCurrentRoom(rooms.get(3));
+                switch (action) {
+                    case 'n' -> currentRoom = rooms.get(0);
+                    case 'ö' -> currentRoom = rooms.get(3);
+
+                }
+            } else if (currentRoom == rooms.get(5)) {
+                switch (action) {
+                    case 'v' -> currentRoom = rooms.get(3);
                 }
             }
 
-// efter spelaren rört sig, visa rummet och tillgängliga dörrar
+            for (Item i : currentRoom.getItems()) {
+                switch (action) {
+                    case 'p' -> {
+                        i.setExisting(exists = false);
+                        i.use();
+                    }
+                }
+            }
+
+
+
             narrateRoom.doNarrative(currentRoom);
 
         }
 
     }
 }
-
-
-
-
 
