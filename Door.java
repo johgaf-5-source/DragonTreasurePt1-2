@@ -1,59 +1,58 @@
-public class Door {
+import java.util.ArrayList;
 
-    // dörrens riktning
-    private char position;
+public class Room {
 
-    // true om dörrens visas som låst, false om dörren visas som öppen
-    private boolean locked;
-
-    // konstruktor som skapar en dörr med position och låst-status
-    public Door(char position, boolean locked) {
-        setPosition(position);
-        setLocked(locked);
-    }
-
-//setter för position, kan användas om man vill ändra riktning senare
-    public void setPosition(char position) {
-        this.position = position;
-    }
-// getter om man ska skriva ut positionen som tecken
-    public char getPositionChar() {
-        return position;
-    }
-
-    // returnerar en beskrivning av dörren beroende på riktning och om den är låst
-    // detta används för att visa spelaren vilka dörrar som finns och vilka som är låsta
-    public String getPositionDesc() {
-        return switch (position) {
-            case 'n' -> locked
-                    ? "Du ser en låst dörr norr om dig [n]" //om dörren är låst
-                    : "Du kan gå norrut [n]"; //om dörren är öppen
-
-            case 's' -> locked
-                    ? "Du ser en låst dörr i söder [s]"
-                    : "Du kan gå söderut [s]";
-            case 'ö' -> locked
-                    ? "Du ser en låst dörr i öster [ö]"
-                    : "Du kan gå österut [ö]";
-            case 'v' -> locked
-                    ? "Du ser en låst dörr i väster [v]"
-                    : "Du kan gå västerut [v]";
-
-
-            default -> "Du ser en utgång österut [ö]"; //om positionen inte matchar
-
-        };
+// text som beskriver rummet
+    private String roomDesc;
+    //lista med dörrarna som finns i rummet
+    private ArrayList<Door> doors = new ArrayList<>();
+// konstruktor som skapar ett rum med en beskrivning
+    public Room(String roomDesc) {
+        this.roomDesc = roomDesc;
 
     }
-//setter för låst status
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-//returnerar true om dörren är låst, false om den går att passera
-    public boolean isLocked() {
 
-        return locked;
+    //setter för rumsbeskrivningen, kan användas om man vill ändra på beskrivningen under spelets gång
+    public void setRoomDesc(String roomDesc) {
+        this.roomDesc = roomDesc;
     }
-// test för ändring i main branch
+//getter för rumsbeskrivningen, returnerar beskrivningen när spelaren går in i rummet
+    public String getRoomDesc() {
+
+        return this.roomDesc;
+    }
+
+    public Door getDoor(char position){
+        for (Door door : doors) {
+            if (door.getPositionChar() == position) {
+                return door;
+            }
+        }
+        return null;
+    }
+
+// lägger till en ny dörr till rummet
+    public void addDoor(Door door) {
+        doors.add(door);
+    }
+
+//returnerar listan med dörrarna till rummet
+    public ArrayList<Door> getDoors() {
+        return doors;
+    }
+
+//skriver ut tillhörande beskrivningar till nuvarande rum med tillhörande dörrar
+    public void doNarrative(Room currentRoom) {
+
+        System.out.println(currentRoom.getRoomDesc());
+
+//loopar igenom alla dörrar i rummet och skriver ut deras beskrivningar
+        for (Door d : currentRoom.getDoors()) {
+            System.out.println(d.getPositionDesc());
+        }
+
+
+    }
+
 
 }
