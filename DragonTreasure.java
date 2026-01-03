@@ -1,6 +1,3 @@
-
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -51,30 +48,30 @@ public class DragonTreasure {
         Room room6 = rooms.get(5);
 
 
-        room1.addDoor(new Door('n', false));
-        room1.addDoor(new Door('s', false));
+        room1.addDoor(new Door('n', false, 0));
+        room1.addDoor(new Door('s', false,0));
 
-        room2.addDoor(new Door('s', false));
-        room2.addDoor(new Door('ö', false));
+        room2.addDoor(new Door('s', false,0));
+        room2.addDoor(new Door('ö', false,0));
 
-        room3.addDoor(new Door(' ', false));
-        room3.addDoor(new Door('v', false));
-        room3.addDoor(new Door('s', false));
+        room3.addDoor(new Door(' ', false,0));
+        room3.addDoor(new Door('v', false,0));
+        room3.addDoor(new Door('s', false,0));
 
-        room4.addDoor(new Door('ö', true));
-        room4.addDoor(new Door('n', false));
-        room4.addDoor(new Door('v', false));
+        room4.addDoor(new Door('ö', true,1));
+        room4.addDoor(new Door('n', false,0));
+        room4.addDoor(new Door('v', false, 0));
 
-        room5.addDoor(new Door('n', false));
-        room5.addDoor(new Door('ö', false));
+        room5.addDoor(new Door('n', false, 0));
+        room5.addDoor(new Door('ö', false, 0));
 
-        room6.addDoor(new Door('v', false));
+        room6.addDoor(new Door('v', false, 0));
 
         ArrayList<Item> items = new ArrayList<>();
 
         items.add(new Weapon("sword", " ", true, 2));
         items.add(new Potion("potion", " ", true, 6));
-        items.add(new Key("key", " ", true));
+        items.add(new Key("key", " ", true, 1));
 
 room2.addItem(items.get(0));
 room4.addItem(items.get(1));
@@ -94,8 +91,9 @@ room5.addItem(items.get(2));
 
 
 
-        Dungeon intro = new Dungeon("", rooms.get(0));
 // ett välkommstmeddellande
+        Dungeon intro = new Dungeon("", rooms.get(0));
+
         intro.setWelcomeMessage("Välkommen till Dragon Treasure \n" +
                 "Skriv ditt namn och tryck på [Enter] för att starta ett nytt spel...");
 
@@ -153,7 +151,9 @@ room5.addItem(items.get(2));
 
         System.out.println("Du har ingen nyckel som passar");
         System.out.println("Du kikar genom nyckelhålet och ser en skattkista full med guld.");
+
         // skriver ut en bild på en kista
+        /*
         System.out.println(
                 " _.--.\n" +
                         " _.-'_:-'||\n" +
@@ -173,7 +173,7 @@ room5.addItem(items.get(2));
                         " || || |'| _.-'_.-'\n" +
                         " |'-._ || |'|_.-'_.-'\n" +
                         " '-._'-.|| |' `_.-'\n" +
-                        " '-.||_/.-'\n");
+                        " '-.||_/.-'\n"); */
     }
 }
 
