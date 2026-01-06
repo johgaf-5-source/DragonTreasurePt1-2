@@ -5,7 +5,7 @@ public class Key extends Item {
 private int keyId;                                                                         
                                                                                           
     @Override                                                                              
-     void use(ArrayList<Room> rooms) {                                                    
+     void use(ArrayList<Room> rooms, Player newPlayer) {                                                    
                                                                                           
         System.out.println("Du plockar upp nyckeln");                                     
                                                                                           
