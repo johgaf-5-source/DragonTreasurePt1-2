@@ -36,7 +36,8 @@ public void setMonsterDesc(String monsterDesc) {
         this.monsterDesc = monsterDesc;
 }
 public String getMonsterDesc() {
-        return monsterDesc;
+//kanske kommer att ändras
+        return name + "attacerar dig och gör "+ damage + "skada";
 }
 
 }
