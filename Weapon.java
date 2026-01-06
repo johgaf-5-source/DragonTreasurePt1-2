@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Weapon extends Item{
     private int increaseDamage;
 
-    public Weapon(String name, String itemDesc, int increaseDamage){
-        super(name, itemDesc);
+    public Weapon(String name, String itemDesc, boolean exists, int increaseDamage){
+        super(name, itemDesc, exists);
         this.increaseDamage = increaseDamage;
     }
 
@@ -13,9 +15,12 @@ public class Weapon extends Item{
     public int getIncreaseDamage(){
         return increaseDamage;
     }
-    
+
     @Override
-    public void use() {
+    void use(ArrayList<Room> rooms, Player newPlayer) {
+System.out.println("Du tog upp svärdet.");
+newPlayer.setDamage(newPlayer.getDamage() + increaseDamage);
+
 
     }
 
