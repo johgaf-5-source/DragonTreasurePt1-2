@@ -93,8 +93,7 @@ public class Dungeon {
                     case 'v' -> currentRoom = rooms.get(4);
                     case 'n' -> currentRoom = rooms.get(2);
                     case 'ö' -> currentRoom = rooms.get(5);
-                    }
-
+                }
 
 
             } else if (currentRoom == rooms.get(4)) {
@@ -109,19 +108,40 @@ public class Dungeon {
                 }
             }
 
-            for (Item i : currentRoom.getItems()) {
-                switch (action) {
-                    case 'p' -> {
-                        i.setExisting(false);
+            for (Item i : new ArrayList<>(currentRoom.getItems())) {
+                if (action == 'p') {
+                    switch (i.getName()) {
+                        case "key" -> System.out.println("Du tog upp nyckeln.");
+                        case "sword" -> System.out.println("Du tog upp svärdet.");
+                        case "potion" -> System.out.println("Du tog upp hälsodrycken");
+                    }
+
+
+                    currentRoom.removeItem(i);
+                    newPlayer.addItem(i);
+                    if (!i.getName().equals("potion")) {
                         i.use(rooms, newPlayer);
+
                     }
                 }
-            }
+                    break;
+                }
+                switch (action) {
+                    case 'd' -> {
+                        Item potion = newPlayer.getItemByName("potion");
+                        if (potion != null) {
+                            potion.use(rooms, newPlayer);
+                        } else {
+                            System.out.println("Du har ingen hälsodryck");
+                        }
+                    }
+                }
 
-            narrateRoom.doNarrative(currentRoom);
+
+                narrateRoom.doNarrative(currentRoom);
+            }
 
         }
     }
-}
- 
-                                                                                                       
+
+                                                                                               
