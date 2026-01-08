@@ -6,13 +6,16 @@ public class Player {
     private int healthPoints;
     private int damage;
     private final ArrayList<Item> inventory;
+    private String playerDesc;
 
 
-    public Player(String name, int healthPoints, int damage, ArrayList<Item> inventory) {
+    public Player(String name, int healthPoints, int damage, ArrayList<Item> inventory, String playerDesc) {
         this.name = name;
         this.healthPoints = healthPoints;
         this.damage = damage;
         this.inventory = inventory;
+        this.playerDesc = playerDesc;
+
     }
 
     //setter metod för att ändra spelarens namn
@@ -53,6 +56,13 @@ public class Player {
 
     public ArrayList<Item> getInventory() {
         return inventory;
+    }
+
+    public void setPlayerDesc(String playerDesc) {
+        this.playerDesc = playerDesc;
+    }
+    public String getPlayerDesc() {
+        return playerDesc;
     }
 
     public Item getItemByName(String name) {
