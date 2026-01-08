@@ -8,19 +8,23 @@ public class DragonTreasure {
 // skapar och startar spelet
         DragonTreasure dragonTreasure = new DragonTreasure();
         dragonTreasure.setupGame();
+
+
     }
+
 
     public void setupGame() {
         Scanner scanner = new Scanner(System.in);
 
 // här skapas alla rum och lagras i lista de kan refereras till
         ArrayList<Room> rooms = new ArrayList<>();
-        Room room1 = new Room("Rummet är upplyst av några ljus som sitter på ett bord framför dig.");
-        Room room2 = new Room("Du ser en död kropp på golvet.");
-        Room room3 = new Room("Du ser en brinnande fackla i rummets ena hörn och känner en motbjudande stank.");
-        Room room4 = new Room("Du kommer in i ett fuktigt rum med vatten sipprandes längs den västra väggen.");
-        Room room5 = new Room("Du kommer in i ett rymligt bergrum med en ljusstrimma sipprandes genom en spricka i den östra väggen.");
-        Room room6 = new Room("En arg drake dyker upp");
+        Room room1 = new Room("Rummet är upplyst av några ljus som sitter på ett bord framför dig.", false);
+        Room room2 = new Room("Du ser en död kropp på golvet.", false);
+        Room room3 = new Room("Du ser en brinnande fackla i rummets ena hörn och känner en motbjudande stank.", true);
+        Room room4 = new Room("Du kommer in i ett fuktigt rum med vatten sipprandes längs den västra väggen.", false);
+        Room room5 = new Room("Du kommer in i ett rymligt bergrum med en ljusstrimma sipprandes genom en spricka i den östra väggen.", false);
+        Room room6 = new Room("En arg drake dyker upp", true);
+
 
 
         rooms.add(room1);
@@ -29,6 +33,7 @@ public class DragonTreasure {
         rooms.add(room4);
         rooms.add(room5);
         rooms.add(room6);
+
 
 
         Door east = new Door('ö', false, 0);
@@ -69,12 +74,13 @@ public class DragonTreasure {
         room5.addDoor(north);
         room5.addDoor(east);
 
-        room6.addDoor(west);
+room6.addDoor(west);
 
         ArrayList<Item> items = new ArrayList<>();
         Item sword = new Weapon("sword", " ", true, 1);
         Item potion = new Potion("potion", " ", true, 6);
         Item key = new Key("key", " ", true, 1);
+        Item treasure = new Treasure("treasure", "", true, 1);
 
         items.add(sword);
         items.add(potion);
@@ -83,24 +89,33 @@ public class DragonTreasure {
         room2.addItem(sword);
         room4.addItem(potion);
         room5.addItem(key);
+        room6.addItem(treasure);
 
         ArrayList<Monster> monsters = new ArrayList<>();
 
         Monster monster = new Monster("Odjuret", 8, 1, "");
-        Monster dragon = new Monster("Draken", 18, 1, "En arg drake dyker upp");
+        Monster dragon = new Monster("Draken", 18, 1, "");
+
+        monster.setMonsterDesc(monster.getName() + " attackerar dig och gör " + monster.getDamage() + " skada");
+        dragon.setMonsterDesc(dragon.getName() + " attackerar dig och gör " + dragon.getDamage() + " skada");
 
         monsters.add(monster);
         monsters.add(dragon);
+
 
         room3.addMonster(monster);
 
         room6.addMonster(dragon);
 
-        Player newPlayer = new Player("", 9, 1);
+        Player newPlayer = new Player("", 10, 1, new ArrayList<>(), "");
+
 
 
         Dungeon intro = new Dungeon("", rooms.get(0));
-// ett välkommstmeddellande
+        Monster a = new Monster("", 9, 1, "");
+
+
+
         intro.setWelcomeMessage("Välkommen till Dragon Treasure \n" +
                 "Skriv ditt namn och tryck på [Enter] för att starta ett nytt spel...");
 
@@ -146,11 +161,14 @@ public class DragonTreasure {
 
     }
 
-    // ska potentiellt uppdateras
-    public void endGame() {
-       
-        System.out.println("Du lämnar grottan med livet i behåll. Grattis, du förlorade inte!");
+    public void endGame(Player newPlayer) {
+        // skriver ett slutmeddellande när spelet avslutas
 
+        if (newPlayer.getHealthPoints() <= 0) {
+            System.out.println("Du dog");
+        } else {
+            System.out.println("Du lämnar grottan med livet i behåll. Grattis, du förlorade inte!");
+        }
     }
 
     public void doorLocked() {
