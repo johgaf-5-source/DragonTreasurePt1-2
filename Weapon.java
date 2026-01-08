@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Weapon extends Item{
     private int increaseDamage;
 
@@ -13,9 +15,12 @@ public class Weapon extends Item{
     public int getIncreaseDamage(){
         return increaseDamage;
     }
-    
+
     @Override
-    public void use() {
+    void use(ArrayList<Room> rooms, Player newPlayer) {
+// System.out.println("Du tog upp svärdet.");
+newPlayer.setDamage(newPlayer.getDamage() + increaseDamage);
+
 
     }
 
