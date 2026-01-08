@@ -164,7 +164,7 @@ public class Dungeon {
 
                         currentRoom.setBattle(false);
 
-                        newPlayer.setPlayerDesc("Du besegrar " + m.getName().toLowerCase() + "PENIS");
+                        newPlayer.setPlayerDesc("Du besegrar " + m.getName().toLowerCase());
 
 
 narrateRoom.doBattle(currentRoom, newPlayer);
