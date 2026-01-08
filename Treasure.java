@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 public class Treasure extends Item{
 
     private int goldValue;
@@ -17,7 +18,9 @@ public class Treasure extends Item{
         return goldValue;
     }
     @Override
-    void use(ArrayList<Room> rooms){
+    void use(ArrayList<Room> rooms, Player newPlayer) {
+
+        newPlayer.addItem(this);
 
     }
 }
