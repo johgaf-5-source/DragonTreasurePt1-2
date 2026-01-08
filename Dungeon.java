@@ -39,7 +39,8 @@ public class Dungeon {
         DragonTreasure show = new DragonTreasure();
 
 
-        Room narrateRoom = new Room(" ");
+        Room narrateRoom = new Room(" ", false);
+
 
         Scanner scanner = new Scanner(System.in);
 
@@ -47,6 +48,7 @@ public class Dungeon {
         System.out.println("När du går in i grottan kollapsar ingången bakom dig.");
         //visar beskrivning av det aktuella rummet och vilka dörrar som finns
         narrateRoom.doNarrative(currentRoom);
+
 
 //loop som körs tills spelet avslutas
         while (true) {
@@ -82,7 +84,7 @@ public class Dungeon {
                     case 's' -> currentRoom = rooms.get(3);
                     case 'v' -> currentRoom = rooms.get(1);
                     case 'ö' -> {
-                        show.endGame();
+                        show.endGame(newPlayer);
                         return;
                     }
 
@@ -115,33 +117,81 @@ public class Dungeon {
                         case "sword" -> System.out.println("Du tog upp svärdet.");
                         case "potion" -> System.out.println("Du tog upp hälsodrycken");
                     }
-
+                    if (i.getName().equals("potion") && newPlayer.getHealthPoints() < 10) {
+                        System.out.println("Du har " + newPlayer.getHealthPoints() + " hälsopoäng kvar. Kan vara en bra idé att dricka den där hälsodrycken [d]");
+                        action = scanner.next().charAt(0);
+                    }
 
                     currentRoom.removeItem(i);
                     newPlayer.addItem(i);
-                    if (!i.getName().equals("potion")) {
+                    if (!i.getName().equals("potion") && !i.getName().equals("treasure")) {
                         i.use(rooms, newPlayer);
-
                     }
+                } else if (i.getName().equals("treasure")) {
+                    i.use(rooms, newPlayer);
                 }
-                    break;
+                break;
+            }
+            if (action == 'd') {
+                Item potion = newPlayer.getItemByName("potion");
+                if (potion != null) {
+                    potion.use(rooms, newPlayer);
+                } else {
+                    System.out.println("Du har ingen hälsodryck");
                 }
-                switch (action) {
-                    case 'd' -> {
-                        Item potion = newPlayer.getItemByName("potion");
-                        if (potion != null) {
-                            potion.use(rooms, newPlayer);
-                        } else {
-                            System.out.println("Du har ingen hälsodryck");
-                        }
-                    }
-                }
-
-
-                narrateRoom.doNarrative(currentRoom);
             }
 
-        }
-    }
+            for (Monster m : currentRoom.getMonsters()) {
 
-                                                                                               
+                if (newPlayer.getDamage() > 1) {
+                    newPlayer.setPlayerDesc("Du attacerar " + m.getName() + " och gör " + newPlayer.getDamage() + " skador");
+                } else {
+                    newPlayer.setPlayerDesc("Du attacerar " + m.getName() + " och gör " + newPlayer.getDamage() + " skada");
+                }
+
+                narrateRoom.doNarrative(currentRoom);
+                while (newPlayer.getHealthPoints() > 0 || m.getHealthPoints() > 0) {
+
+                    narrateRoom.doBattle(currentRoom, newPlayer);
+
+                    newPlayer.setHealthPoints(newPlayer.getHealthPoints() - m.getDamage());
+                    m.setHealthPoints(m.getHealthPoints() - newPlayer.getDamage());
+                    if (m.getHealthPoints() == 0) {
+
+                        currentRoom.removeMonster(m);
+
+
+
+                        currentRoom.setBattle(false);
+
+                        newPlayer.setPlayerDesc("Du besegrar " + m.getName().toLowerCase() + "PENIS");
+
+
+narrateRoom.doBattle(currentRoom, newPlayer);
+                        currentRoom.setRoomDesc("");
+break;
+
+                    } else if (newPlayer.getHealthPoints() == 0) {
+                        break;
+                    }
+
+
+                }
+                narrateRoom.doBattle(currentRoom, newPlayer);
+                break;
+            }
+
+
+            if (newPlayer.getHealthPoints() == 0) {
+                show.endGame(newPlayer);
+                break;
+            }
+
+            narrateRoom.doNarrative(currentRoom);
+            //  narrateRoom.doBattle(currentRoom, newPlayer);
+        }
+
+    }
+}
+
+                                                                                            
