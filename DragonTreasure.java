@@ -77,14 +77,15 @@ public class DragonTreasure {
 room6.addDoor(west);
 
         ArrayList<Item> items = new ArrayList<>();
-        Item sword = new Weapon("sword", " ", true, 1);
-        Item potion = new Potion("potion", " ", true, 6);
-        Item key = new Key("key", " ", true, 1);
-        Item treasure = new Treasure("treasure", "", true, 1);
+        Item sword = new Weapon("sword", " ",  1);
+        Item potion = new Potion("potion", " ",  6);
+        Item key = new Key("key", " ",  1);
+        Item treasure = new Treasure("treasure", "",  1);
 
         items.add(sword);
         items.add(potion);
         items.add(key);
+        items.add(treasure);
 
         room2.addItem(sword);
         room4.addItem(potion);
@@ -166,8 +167,14 @@ room6.addDoor(west);
 
         if (newPlayer.getHealthPoints() <= 0) {
             System.out.println("Du dog");
-        } else {
+        } else if (newPlayer.getInventory().size() > 3){
+            System.out.println("Du lämnar grottan med skatten. Grattis, du vann!");
+     /*       Test
+            System.out.println(newPlayer.getInventory().size()); */
+      
+        }else {
             System.out.println("Du lämnar grottan med livet i behåll. Grattis, du förlorade inte!");
+            System.out.println(newPlayer.getInventory().size());
         }
     }
 
