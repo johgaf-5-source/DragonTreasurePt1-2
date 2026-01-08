@@ -2,47 +2,118 @@ import java.util.ArrayList;
 
 public class Room {
 
-// text som beskriver rummet
-    private String roomDesc;
-    //lista med dörrarna som finns i rummet
-    private ArrayList<Door> doors = new ArrayList<>();
-// konstruktor som skapar ett rum med en beskrivning
-    public Room(String roomDesc) {
-        this.roomDesc = roomDesc;
 
+    private String roomDesc;
+    private ArrayList<Door> doors = new ArrayList<>();
+    private final ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Monster> monsters = new ArrayList<>();
+    private boolean battle;
+
+
+    public Room(String roomDesc, boolean battle) {
+        this.roomDesc = roomDesc;
+        this.battle = battle;
     }
 
-    //setter för rumsbeskrivningen, kan användas om man vill ändra på beskrivningen under spelets gång
+    public boolean inBattle() {
+        return battle;
+    }
+
+    public void setBattle(boolean battle) {
+        this.battle = battle;
+    }
+
     public void setRoomDesc(String roomDesc) {
         this.roomDesc = roomDesc;
     }
-//getter för rumsbeskrivningen, returnerar beskrivningen när spelaren går in i rummet
+
     public String getRoomDesc() {
 
         return this.roomDesc;
     }
-// lägger till en ny dörr till rummet
+
+    public Door getDoor(char position) {
+        for (Door door : doors) {
+            if (door.getPositionChar() == position) {
+                return door;
+            }
+        }
+        return null;
+    }
+
+
     public void addDoor(Door door) {
         doors.add(door);
     }
 
-//returnerar listan med dörrarna till rummet
     public ArrayList<Door> getDoors() {
         return doors;
     }
 
-//skriver ut tillhörande beskrivningar till nuvarande rum med tillhörande dörrar
-    public void doNarrative(Room currentRoom) {
 
-        System.out.println(currentRoom.getRoomDesc());
+    public void addItem(Item item) {
+        items.add(item);
+    }
 
-//loopar igenom alla dörrar i rummet och skriver ut deras beskrivningar
-        for (Door d : currentRoom.getDoors()) {
-            System.out.println(d.getPositionDesc());
-        }
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
 
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 
+    public void addMonster(Monster monster) {
+        monsters.add(monster);
+    }
+
+    public void removeMonster(Monster monster) {
+        monsters.remove(monster);
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
     }
 
 
+    public void doNarrative(Room currentRoom) {
+
+        if (!currentRoom.getRoomDesc().equals("")) {
+            System.out.println(currentRoom.getRoomDesc());
+        }
+
+        for (Item i : currentRoom.getItems()) {
+
+            if (!currentRoom.inBattle() && i != null) {
+                System.out.println(i.getItemDesc());
+
+        }
+
+        }
+
+        for (Door d : currentRoom.getDoors()) {
+
+            if (!currentRoom.inBattle()) {
+                System.out.println(d.getPositionDesc());
+            }
+
+        }
+
+    }
+
+    public void doBattle(Room currentRoom, Player newPlayer) {
+        for (Monster monster : currentRoom.getMonsters()) {
+
+            System.out.println(monster.getMonsterDesc());
+            System.out.println(newPlayer.getPlayerDesc());
+
+            if (!currentRoom.getMonsters().contains(monster)) {
+
+                System.out.println(newPlayer.getPlayerDesc());
+            }
+             // test System.out.println(newPlayer.getHealthPoints() + " " + monster.getHealthPoints());
+
+
+        }
+    }
 }
