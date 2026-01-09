@@ -2,10 +2,9 @@ public class Door {
 
     // dörrens riktning
     private char position;
-
     // true om dörrens visas som låst, false om dörren visas som öppen
     private boolean locked;
-
+// ett nummer för varje dörr, bestämmer vilken eller vilka nycklar som kan låsa upp den
     private int doorId;
 
     // konstruktor som skapar en dörr med position och låst-status
@@ -19,17 +18,14 @@ public class Door {
         return doorId;
     }
 
-//setter för position, kan användas om man vill ändra riktning senare
-    public void setPosition(char position) {
-        this.position = position;
-    }
+
 // getter om man ska skriva ut positionen som tecken
     public char getPositionChar() {
         return position;
     }
 
-    // returnerar en beskrivning av dörren beroende på riktning och om den är låst
-    // detta används för att visa spelaren vilka dörrar som finns och vilka som är låsta
+    // returnerar en beskrivning av dörren beroende på riktning och om den är låst, olåst, utgång, eller låst utgång
+
     public String getPositionDesc() {
         return switch (position) {
             case 'n' -> locked
