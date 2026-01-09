@@ -76,7 +76,7 @@ public class Room {
     }
 
 
-    public void doNarrative(Room currentRoom) {
+    public void doNarrative(Room currentRoom, Player newPlayer) {
 
         if (!currentRoom.getRoomDesc().equals("")) {
             System.out.println(currentRoom.getRoomDesc());
@@ -84,10 +84,9 @@ public class Room {
 
         for (Item i : currentRoom.getItems()) {
 
-            if (!currentRoom.inBattle() && i != null) {
+            if (!currentRoom.inBattle()) {
                 System.out.println(i.getItemDesc());
-
-        }
+            }
 
         }
 
@@ -111,7 +110,7 @@ public class Room {
 
                 System.out.println(newPlayer.getPlayerDesc());
             }
-             // test System.out.println(newPlayer.getHealthPoints() + " " + monster.getHealthPoints());
+            // test System.out.println(newPlayer.getHealthPoints() + " " + monster.getHealthPoints());
 
 
         }
