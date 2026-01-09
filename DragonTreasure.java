@@ -5,7 +5,7 @@ public class DragonTreasure {
 
 
     public static void main(String[] args) {
-// skapar och startar spelet
+// metod för att skapa alla objekten körs
         DragonTreasure dragonTreasure = new DragonTreasure();
         dragonTreasure.setupGame();
 
@@ -25,8 +25,6 @@ public class DragonTreasure {
         Room room5 = new Room("Du kommer in i ett rymligt bergrum med en ljusstrimma sipprandes genom en spricka i den östra väggen.", false);
         Room room6 = new Room("En arg drake dyker upp", true);
 
-
-
         rooms.add(room1);
         rooms.add(room2);
         rooms.add(room3);
@@ -35,7 +33,7 @@ public class DragonTreasure {
         rooms.add(room6);
 
 
-
+// här skapas dörrobjekten
         Door east = new Door('ö', false, 0);
         Door west = new Door('v', false, 0);
         Door north = new Door('n', false, 0);
@@ -56,7 +54,7 @@ public class DragonTreasure {
         Door lockedNorthExit = new Door('N', true, 0);
         Door lockedSouthExit = new Door('S', true, 0); */
 
-
+// varje rum får en tilldelad dörr
         room1.addDoor(north);
         room1.addDoor(south);
 
@@ -74,13 +72,14 @@ public class DragonTreasure {
         room5.addDoor(north);
         room5.addDoor(east);
 
-room6.addDoor(west);
+        room6.addDoor(west);
 
+        // föremålen skapas och läggs in i rummen
         ArrayList<Item> items = new ArrayList<>();
-        Item sword = new Weapon("sword", " ",  1);
-        Item potion = new Potion("potion", " ",  6);
-        Item key = new Key("key", " ",  1);
-        Item treasure = new Treasure("treasure", "",  1);
+        Item sword = new Weapon("sword", " ", 1);
+        Item potion = new Potion("potion", " ", 6);
+        Item key = new Key("key", " ", 1);
+        Item treasure = new Treasure("treasure", "");
 
         items.add(sword);
         items.add(potion);
@@ -92,29 +91,31 @@ room6.addDoor(west);
         room5.addItem(key);
         room6.addItem(treasure);
 
+        // monster skapas
         ArrayList<Monster> monsters = new ArrayList<>();
 
         Monster monster = new Monster("Odjuret", 8, 1, "");
         Monster dragon = new Monster("Draken", 18, 1, "");
 
+        // varje monster får en tillhörande beskrivning för när spelaren hamnar i strid, "monster" är odjuret och "dragon" är draken
         monster.setMonsterDesc(monster.getName() + " attackerar dig och gör " + monster.getDamage() + " skada");
         dragon.setMonsterDesc(dragon.getName() + " attackerar dig och gör " + dragon.getDamage() + " skada");
-
+// monster läggs till
         monsters.add(monster);
         monsters.add(dragon);
 
-
+//monsters läggs in i tilldelat rum
         room3.addMonster(monster);
 
         room6.addMonster(dragon);
 
+
+        // ett spelar objekt skapas
         Player newPlayer = new Player("", 10, 1, new ArrayList<>(), "");
 
-
-
+// dungeon objekt skapas för att visa välkomstmeddelanden, och för att kunna starta själva "spelet" med playGame
         Dungeon intro = new Dungeon("", rooms.get(0));
         Monster a = new Monster("", 9, 1, "");
-
 
 
         intro.setWelcomeMessage("Välkommen till Dragon Treasure \n" +
@@ -134,7 +135,6 @@ room6.addDoor(west);
         System.out.println(intro.getWelcomeMessage());
 
 
-
         String transition = scanner.nextLine();
 
 
@@ -148,10 +148,11 @@ room6.addDoor(west);
                 // Om användaren skriver 'ö' startar spelet
                 char transitionChar = transition.charAt(0);
                 if (transitionChar == 'ö' || transitionChar == 'Ö') {
-                    intro.playGame(rooms, newPlayer);
-                    break; // Avslutar loopen när spelet startar
+                    intro.playGame(rooms, newPlayer, items);
+                    break; // Avslutar loopen om spelaren, vinner eller förlorar
 
                 } else {
+                    // om spelaren inte skriver "ö" eller "Ö"
                     System.out.println("Du står kvar utanför grottan, skriv \"ö\" och tryck [Enter] för att gå vidare.");
                 }
             }
@@ -162,53 +163,30 @@ room6.addDoor(west);
 
     }
 
-    public void endGame(Player newPlayer) {
+    public void endGame(Player newPlayer, ArrayList <Item> items) {
         // skriver ett slutmeddellande när spelet avslutas
 
+        // om spelaren når 0 i hälsopoäng
         if (newPlayer.getHealthPoints() <= 0) {
             System.out.println("Du dog");
-        } else if (newPlayer.getInventory().size() > 3){
-            System.out.println("Du lämnar grottan med skatten. Grattis, du vann!");
-     /*       Test
-            System.out.println(newPlayer.getInventory().size()); */
 
-        }else {
+            // kollar om spelaren bär på skatten, vilket i detta fallet har index 3
+        } else if (newPlayer.getInventory().contains(items.get(3))) {
+            System.out.println("Du lämnar grottan med skatten. Grattis, du vann!");
+
+           // test  System.out.println(newPlayer.getInventory());
+
+// om lämnar grottan utan skatten
+        } else {
             System.out.println("Du lämnar grottan med livet i behåll. Grattis, du förlorade inte!");
-            System.out.println(newPlayer.getInventory().size());
+        // test    System.out.println(newPlayer.getInventory().size());
         }
     }
-
+// meddelande som skrivs ut ifall spelaren försöker interagera med en låst dörr
     public void doorLocked() {
         System.out.println("Du har ingen nyckel som passar");
     }
 
-    public void chest() {
 
-
-        System.out.println("Du kikar genom nyckelhålet och ser en skattkista full med guld.");
-
-        // skriver ut en bild på en kista
-        /*
-        System.out.println(
-                " _.--.\n" +
-                        " _.-'_:-'||\n" +
-                        " _.-'_.-::::'||\n" +
-                        " _.-:'_.-::::::' ||\n" +
-                        " .'`-.-:::::::' ||\n" +
-                        " /.'`;|:::::::' ||_\n" +
-                        " || ||::::::' _.;._'-._\n" +
-                        " || ||:::::' _.-!oo @.!-._'-.\n" +
-                        " \'. ||:::::.-!() oo @!()@.-'_.||\n" +
-                        " '.'-;|:.-'.&$@.& ()$%-'o.'\\U||\n" +
-                        " `>'-.!@%()@'@_%-'_.-o _.|'||\n" +
-                        " ||-._'-.@.-'_.-' _.-o |'||\n" +
-                        " ||=[ '-._.-\\U/.-' o |'||\n" +
-                        " || '-.]=|| |'| o |'||\n" +
-                        " || || |'| _| ';\n" +
-                        " || || |'| _.-'_.-'\n" +
-                        " |'-._ || |'|_.-'_.-'\n" +
-                        " '-._'-.|| |' `_.-'\n" +
-                        " '-.||_/.-'\n"); */
-    }
 }
 
